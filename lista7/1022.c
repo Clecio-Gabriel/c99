@@ -44,12 +44,14 @@ simplify(res);
 
 }
 
+//DONE
 void mult(int n1, int d1, int n2, int d2, int res[4]){
     //serei sucinto, deixarei a parte mais pegada para a func de sum_sub
     res[0] = (n1*n2);
     res[1] = (d1*d2);
 }
 
+//DONE
 void simplify(int res[4]){
     int n = res[0]; int d = res[1];
     int div = mdc(n, d);
@@ -65,6 +67,7 @@ void simplify(int res[4]){
     
 }
 
+//DONE
 int mdc(int a,int b){
     if (b==0){
         return a;
