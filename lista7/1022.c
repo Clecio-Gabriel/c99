@@ -20,7 +20,7 @@ int main(){
 
 void sum_sub(); //irei me aproveitar das similaridades dessas duas para utilzar a mesma função
 void mult(int n1, int d1, int n2, int d2, int res[4]); //vou me aproveitar do conceito de div em frações
-unsigned long long int mdc(); //para auxiliar na simplificação
+int mdc(int a,int b); //para auxiliar na simplificação
 void simplify(int res[4]);
 
 
@@ -40,6 +40,8 @@ if (op=='/'){
     mult(n_f1, d_f1, d_f2, n_f2, res);
 }
 
+simplify(res);
+
 }
 
 void mult(int n1, int d1, int n2, int d2, int res[4]){
@@ -50,6 +52,25 @@ void mult(int n1, int d1, int n2, int d2, int res[4]){
 
 void simplify(int res[4]){
     int n = res[0]; int d = res[1];
+    int div = mdc(n, d);
 
+    int c = 2;
+    for (int i = 0; i<2; i++){
+        while (c<4){
+            res[c] = res[i]/div;
+            break;
+        }
+        c++;
+    }
     
+}
+
+int mdc(int a,int b){
+    if (b==0){
+        return a;
+    }
+
+    else{
+        return mdc(b, a%b);
+    }
 }
