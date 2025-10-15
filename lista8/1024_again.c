@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define M 1001
+#define M 1002
 
 void encryption(char s[M], int c, char res[][M]);
 
