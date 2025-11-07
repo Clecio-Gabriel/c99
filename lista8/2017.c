@@ -1,21 +1,22 @@
 #include <stdio.h>
 #include <string.h>
 
-#define t 100000
+#define t 100002
+#define ip 100000
 #define q 5
 
-int cmp(char str[], char in[], int size, int lim);
+int cmp(char str[], char in[], int sizeA, int sizeB, int lim);
 int smaller(int vet[], int res[2]);
 
 int main(){
 
     char strini [t];
-    int leni;
+    int leno, lepi;
     do{
-        scanf("%[^\n]", strini);
-        leni = strlen(strini);
-    } while (leni<1);
-    
+        fgets(strini, ip, stdin);
+        leno = strlen(strini);
+    } while (leno<1);
+
     int k;
     do{
         scanf("%i", &k);
@@ -23,11 +24,12 @@ int main(){
     getchar();
 
     int arr_comp[q] = {0};
-    char in[t+2];
+    char in[t];
     char mat_in[q][t];
     for (int i = 0; i < q; i++){
-        fgets(in, t+2, stdin);
-        arr_comp[i] = cmp(strini, in, leni, k);
+        fgets(in, ip, stdin);
+        lepi = strlen(in);
+        arr_comp[i] = cmp(strini, in, lepi, leno, k);
         strcpy(mat_in[i], in);
     }
 
@@ -45,20 +47,35 @@ int main(){
     
 }
 
-int cmp(char str[], char in[], int size, int lim){
-    int cmp_n = 0;
-    for (int i = 0; i<size; i++){
-        if (in[i]!=str[i]){
-            cmp_n++;
-        }
-        if (cmp_n>lim){
-            cmp_n = -1;
-            break;
+void const_base(int m, int n ,int mat[m][n]);
+int min(int vet[3]);
+
+int cmp(char str[], char in[], int sizeA, int sizeB, int lim){
+    int mat[sizeA][sizeB];
+    const_base(sizeA, sizeB, mat);
+    int A = sizeA-1, B = sizeB-1;
+    int cmp, cond;
+
+    //construção do restante da matriz, tal que o termo de index final será o retorno
+    for (int i = 0; i<A; i++){
+        for (int j = 0; j<B; j++){
+            if (str[j]==in[i]){
+                mat[i+1][j+1] = mat[i][j];
+            }
+            else{
+                int lista[] = {mat[i][j], mat[i][j+1], mat[i+1][j]};
+                mat[i+1][j+1] = min(lista) + 1;
+            }
         }
     }
 
-    return cmp_n;
-
+    if (cond==0){
+        int res_mat = mat[A][B];
+        if (res_mat>lim) cmp = -1;
+        else cmp = res_mat;
+    }
+    else cmp = -1;
+    return cmp;
 }
 
 int smaller(int vet[], int res[2]){
@@ -85,4 +102,28 @@ int smaller(int vet[], int res[2]){
         return 1;
     }
 
+}
+
+void const_base(int A, int B ,int mat[A][B]){
+    //constuir a coluna
+    for (int i = 0; i<A; i++){
+        mat[i][0] = i;
+    }
+
+    //construir a linha
+    for (int j = 1; j<B; j++){
+        mat[0][j] = j;
+    }
+
+}
+
+int min(int vet[3]){
+    int min = vet[0];
+    for (int i = 1; i<3; i++){
+        if (min>vet[i]){
+            min = vet[i];
+        }
+    }
+    
+    return min;
 }
